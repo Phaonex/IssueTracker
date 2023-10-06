@@ -1,0 +1,20 @@
+{
+  "name": "issue_tracker",
+  "version": "1.0.0",
+  "description": "calculating due time.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "time",
+    "issues",
+    "check",
+    "issue",
+    "issue",
+    "tracker"
+  ],
+  "author": "kabuqueci",
+  "license": "ISC"
+}
