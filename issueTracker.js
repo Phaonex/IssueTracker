@@ -8,10 +8,14 @@ class issueTracker {
      * the turnArround default value.
      */
     #turnArround
-    // assert.isDateObject(date) for TDD chekcs.
     /**
      *@description defining the dateObjec to easy access date parts.
      *@typedef {{day: number, month: number, year: number, hour: number, minute: number, weekday: string}} dateObject
+     */
+
+     /**
+     *@description Holydays object type defination.
+     *@typedef {[{day: number, month: number}]} holidayObjects
      */
 
     /**
@@ -22,8 +26,9 @@ class issueTracker {
     // A real implementation would required an API of a Date library.
     /**
      * @description Austria based holy days array of objects for dates checking.
+     * @type {holidayObjects}
      */
-    #austriaHolyDays = [
+    #austriaHoliDays = [
         {day: 1, month: 1},
         {day: 6, month: 1},
         {day: 10, month: 4},
@@ -65,21 +70,20 @@ class issueTracker {
             weekday: dateOjectFomated?.at(0) ?? "",      
         }
 
-    }
-    //TODO check why austrian holy day type is any.
+    } 
     /**
      * 
      * @param {dateObject} dateObject 
-     * @param {austriaHolyDays} austriaHolyDays 
+     * @param {holidayObjects} austriaHoliDays 
      * @returns 
      */
-    isAustriaHolyDays = (dateObject, austriaHolyDays) => !austriaHolyDays.find(holyday => holyday.day === dateObject.day && holyday.month === dateObject.month)
+    isaustriaHoliDays = (dateObject, austriaHoliDays) => !austriaHoliDays.find(holyday => holyday.day === dateObject.day && holyday.month === dateObject.month)
    /**
     * 
     * @param {dateObject} dateObject 
     * @returns 
     */
-    weeksDatesHours = (dateObject) =>  dateObject.hour >= 9 && dateObject.hour <= 17;
+    isWeeksDatesHours = (dateObject) =>  (dateObject.hour >= 9 && dateObject.hour <= 17) && (dateObject.day !== "Samstag" || dateObject.day !== "Sontag");
     // I should div % by days (start - finish) difference with is the range from to amount.
     /**
      * 
@@ -106,8 +110,8 @@ class issueTracker {
         this.#dateObjects = this.#dates.map( dates => this.generateDateObject(dates, this.#formaDate));
    
         /**Finally return the calculation pipiline based on a logic that prevent holyday dates or any no working day times!*/
-    return this.#dateObjects.every(this.weeksDatesHours) ? 
-        this.#dateObjects.filter( dateObjects => this.isAustriaHolyDays(dateObjects, this.#austriaHolyDays)).map(this.calcTurnArround)
+    return this.#dateObjects.every(this.isWeeksDatesHours) ? 
+        this.#dateObjects.filter( dateObjects => this.isaustriaHoliDays(dateObjects, this.#austriaHoliDays)).map(this.calcTurnArround)
         .map( turnArrounds => this.toDueTime(turnArrounds, this.#dates, this.#formaDate)).flat() : 
         ['']
     }
